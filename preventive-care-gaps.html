@@ -1,0 +1,356 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Preventive Care Gaps in the U.S. | Anikha Justin</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<div id="wrapper" class="fade-in">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo">Anikha Justin</a>
+			</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Portfolio</a></li>
+					<li class="active"><a href="preventive-care-gaps.html">Preventive Care Gaps</a></li>
+				</ul>
+				<ul class="icons">
+					<li><a href="https://www.linkedin.com/in/anikha-justin-648671211" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+					<li><a href="https://github.com/anikhajustin" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+
+				<article class="post">
+
+					<header class="major">
+						<span class="date">Healthcare Analytics &bull; MEPS 2022</span>
+						<h1>Preventive Care Gaps in the U.S.</h1>
+						<p>Who falls through the cracks? A healthcare consulting-style analysis using MEPS 2022 survey data.</p>
+					</header>
+
+					<ul class="actions" style="margin-bottom: 2em;">
+						<li><a href="https://github.com/anikhajustin/preventive-care-gaps" class="button">View Full Code on GitHub</a></li>
+					</ul>
+
+					<!-- Executive Summary -->
+					<h2>Executive Summary</h2>
+					<p>
+						Health plans and Accountable Care Organizations (ACOs) invest heavily in preventive care
+						because it works: it reduces downstream costs, improves member outcomes, and is directly
+						measurable. But not every member is getting that care, and the gaps are not distributed
+						evenly across the population.
+					</p>
+					<p>
+						This analysis uses the 2022 Medical Expenditure Panel Survey (MEPS), a nationally
+						representative survey of 22,431 Americans, to identify which adults are least likely to
+						receive recommended preventive care, what factors independently predict that gap, and
+						which segments represent the highest-priority targets for outreach and intervention.
+					</p>
+					<p><strong>Three segments account for the largest preventive care gaps:</strong></p>
+					<ul>
+						<li><strong>Young adults aged 18&ndash;34</strong> &mdash; 20.9% care gap, ~8.3 million Americans not receiving recommended care</li>
+						<li><strong>Hispanic adults</strong> &mdash; 19.7% care gap, ~4.6 million Americans</li>
+						<li><strong>Poor adults below 100% of the federal poverty level</strong> &mdash; 14.6% care gap, ~2.3 million Americans</li>
+					</ul>
+					<p>
+						After controlling for income, insurance, race, and sex in a logistic regression model, age
+						is the single strongest predictor of non-utilization. Young adults aged 18&ndash;34 have
+						95% lower odds of receiving preventive care than adults 65 and older, a disparity that
+						holds even after accounting for income and insurance status.
+					</p>
+
+					<hr />
+
+					<!-- Business Question -->
+					<h2>Context &amp; Business Question</h2>
+					<p>
+						A regional health plan or ACO managing a diverse member population faces a practical
+						problem: preventive care visits are not happening for a significant share of members,
+						and identifying who those members are, and why they are not engaging, requires more
+						than intuition. The business question this analysis addresses is:
+					</p>
+					<blockquote>
+						Which members are least likely to receive recommended preventive care, and what
+						demographic, socioeconomic, and insurance-related factors predict that gap?
+					</blockquote>
+					<p>Answering this question allows a health plan to:</p>
+					<ul>
+						<li>Prioritize outreach to the highest-risk segments first</li>
+						<li>Design interventions matched to the specific barriers each segment faces</li>
+						<li>Track gap closure over time as a quality improvement metric</li>
+						<li>Demonstrate HEDIS measure improvement to regulators and purchasers</li>
+					</ul>
+
+					<hr />
+
+					<!-- Data & Methods -->
+					<h2>Data &amp; Methods</h2>
+					<p>
+						<strong>Data source:</strong> MEPS Full Year Consolidated File, 2022 (HC-243), published by
+						the Agency for Healthcare Research and Quality (AHRQ). A nationally representative survey
+						of the U.S. civilian noninstitutionalized population, conducted annually with survey
+						weights that allow results to be scaled to the full U.S. population.
+					</p>
+					<p>
+						<strong>Analysis sample:</strong> 17,909 adults aged 18 and older; 11,274 were asked about
+						at least one preventive screening and are included in the utilization analysis.
+					</p>
+					<p>
+						<strong>Outcome variable:</strong> A yes/no variable combining seven preventive screening
+						questions (Pap smear, mammogram, colorectal cancer screening, blood stool test, cholesterol
+						check, blood pressure check, flu shot), considering only the screenings applicable to each
+						person's age and sex.
+					</p>
+					<p>
+						<strong>Predictors:</strong> Age group, income tier (% of federal poverty level), insurance
+						category, race/ethnicity, and sex.
+					</p>
+					<p><strong>Methods:</strong></p>
+					<ul>
+						<li>Descriptive analysis of care rates by demographic and socioeconomic group</li>
+						<li>Logistic regression (Python, statsmodels) reported as odds ratios with 95% confidence intervals</li>
+						<li>Population sizing using survey weights to estimate real-world impact, not just sample counts</li>
+					</ul>
+					<p>
+						<em>Note: the overall preventive care rate in this sample is 91%, driven largely by routine
+						blood pressure and cholesterol checks. The more meaningful story is in the variation across
+						groups and in cancer screening / flu shot rates.</em>
+					</p>
+
+					<hr />
+
+					<!-- Finding 1 -->
+					<h2>Finding 1 &mdash; Young Adults Are the Most Underserved Group</h2>
+					<span class="image fit">
+						<img src="images/fig4_care_rate_by_age.png" alt="Preventive Care Rate by Age Group" />
+					</span>
+					<p>
+						Adults aged 18&ndash;34 have a preventive care rate of 79.1%, the lowest of any age group
+						and well below the overall average of 91%. Their care gap of 20.9% is nearly 10 times
+						larger than the gap for adults 65 and older (2.2%).
+					</p>
+					<p>
+						This finding is counterintuitive. Conventional thinking assumes younger adults need less
+						healthcare. But the data suggests younger adults are systematically disengaged from the
+						preventive care system, not because they are healthy, but because the system is not
+						reaching them effectively.
+					</p>
+					<p>
+						The logistic regression confirms this: after controlling for income, insurance, race, and
+						sex, adults aged 18&ndash;34 have odds of receiving preventive care that are 95% lower than
+						adults 65 and older (OR = 0.05, 95% CI: 0.036&ndash;0.062) &mdash; the strongest effect in
+						the entire model.
+					</p>
+					<p><strong>Why this gap likely exists:</strong></p>
+					<ul>
+						<li>Young adults are most likely to be on high-deductible plans where cost-sharing discourages visits</li>
+						<li>They are least likely to have an established primary care relationship</li>
+						<li>Preventive care guidelines are less visible to those who haven't yet developed regular healthcare habits</li>
+					</ul>
+
+					<hr />
+
+					<!-- Finding 2 -->
+					<h2>Finding 2 &mdash; Race and Income Disparities Persist After Controlling for Insurance</h2>
+					<span class="image fit">
+						<img src="images/fig2_heatmap_race_insurance.png" alt="Care Gap by Race and Insurance Status" />
+					</span>
+					<p>
+						<strong>NH Black adults face persistent gaps regardless of insurance type</strong> &mdash;
+						11.5&ndash;15.4% across all four insurance categories. Providing insurance coverage alone
+						does not close the gap: NH Black adults have 47% lower odds of receiving preventive care
+						than NH White adults after controlling for income, insurance, and age (OR = 0.53, 95% CI:
+						0.432&ndash;0.649). This points to factors beyond coverage, including historical distrust
+						of the healthcare system, differential quality of care, and geographic access barriers.
+					</p>
+					<p>
+						<strong>Hispanic adults on Medicare have the single largest cell-level gap at 31.3%</strong>,
+						likely reflecting decades of limited preventive care engagement prior to reaching Medicare age.
+					</p>
+					<span class="image fit">
+						<img src="images/fig1_care_rate_by_income.png" alt="Preventive Care Rate by Income Tier" />
+					</span>
+					<p>
+						Income is independently associated with utilization at every tier. Poor adults have 66%
+						lower odds of receiving care than high-income adults after adjustment (OR = 0.34). The
+						gradient isn't perfectly linear &mdash; near-poor, low-income, and middle-income adults all
+						cluster around OR &asymp; 0.52, with a sharp improvement only at the highest income tier.
+					</p>
+
+					<hr />
+
+					<!-- Finding 3 -->
+					<h2>Finding 3 &mdash; Cost Barriers Are Not Just an Uninsured Problem</h2>
+					<span class="image fit">
+						<img src="images/fig3_delayed_care_by_insurance.png" alt="Delayed Care by Insurance Type" />
+					</span>
+					<p>
+						Roughly 7% of adults delayed care due to cost, and this rate barely varies between
+						uninsured (7.3%), privately insured (7.2%), Medicare (6.8%), and publicly insured (6.4%)
+						adults. Expanding coverage alone will not eliminate cost-related care delays &mdash;
+						privately insured adults delay care at nearly the same rate as the uninsured, likely due
+						to high deductibles and out-of-pocket costs.
+					</p>
+					<p>
+						<strong>Implication:</strong> reducing cost barriers requires eliminating cost-sharing
+						specifically for preventive services, and communicating clearly that preventive visits are
+						covered at no cost under ACA-compliant plans.
+					</p>
+
+					<hr />
+
+					<!-- Segment Sizing -->
+					<h2>Segment Sizing &amp; Prioritization</h2>
+					<span class="image fit">
+						<img src="images/fig6_bubble_chart.png" alt="Segment Size vs Care Gap Severity" />
+					</span>
+					<p>
+						This chart plots each segment by care gap rate against estimated U.S. population size.
+						Segments in the upper right are the highest-priority targets: large populations with high
+						gap rates.
+					</p>
+					<ul>
+						<li>Adults aged 18&ndash;34: 39.4 million people in the high-gap zone &mdash; the largest absolute burden of any segment</li>
+						<li>Hispanic adults: 19.7% gap across 23.4 million people &mdash; the strongest race/ethnicity effect in the model</li>
+						<li>Middle-income adults: 45 million people with an 11% gap &mdash; the largest absolute population with a meaningful gap, often overlooked in policy discussions focused only on the poor and uninsured</li>
+					</ul>
+					<span class="image fit">
+						<img src="images/fig5_forest_plot.png" alt="Odds Ratios Forest Plot" />
+					</span>
+					<p>
+						The forest plot shows each predictor's independent effect after controlling for all
+						others. Every predictor except public-only insurance and NH Other race is statistically
+						significant, with a striking age gradient that worsens with decreasing age.
+					</p>
+
+					<hr />
+
+					<!-- Recommendations -->
+					<h2>Recommendations</h2>
+					<span class="image fit">
+						<img src="images/fig7_scorecard.png" alt="Risk Segment Scorecard" />
+					</span>
+
+					<h3>Segment 1 &mdash; Young Adults (18&ndash;34)</h3>
+					<p>20.9% gap, ~39.4 million Americans &mdash; the single largest opportunity.</p>
+					<ul>
+						<li>Telehealth-based preventive visits to remove transportation/scheduling barriers</li>
+						<li>Outreach via text, app notifications, and social media rather than mail or phone</li>
+						<li>Clear, repeated communication that ACA-compliant plans cover preventive visits at zero cost share</li>
+						<li>Partnerships with employers and universities to reach young adults through trusted channels</li>
+					</ul>
+
+					<h3>Segment 2 &mdash; Hispanic Adults</h3>
+					<p>19.7% gap, persistent even among the insured &mdash; pointing to cultural and linguistic barriers.</p>
+					<ul>
+						<li>Community health worker / promotora programs with cultural and linguistic connection</li>
+						<li>Increased Spanish-language materials across all member touchpoints</li>
+						<li>Outreach through community organizations, churches, and cultural events</li>
+						<li>Care navigation support specifically for Medicare-enrolled Hispanic adults</li>
+					</ul>
+
+					<h3>Segment 3 &mdash; Poor Adults (Below 100% FPL)</h3>
+					<p>OR = 0.34, the strongest income-related effect in the model.</p>
+					<ul>
+						<li>Medicaid outreach and enrollment assistance for eligible but unenrolled adults</li>
+						<li>Full elimination of cost-sharing for preventive services near the poverty line</li>
+						<li>Transportation assistance programs</li>
+						<li>Integration with social services addressing food insecurity, housing instability, and other competing priorities</li>
+					</ul>
+
+					<hr />
+
+					<!-- Limitations -->
+					<h2>Project Limitations</h2>
+					<ul>
+						<li><strong>Self-reported data:</strong> household interviews may introduce measurement error; claims-based data would be more reliable for production use</li>
+						<li><strong>Composite outcome driven by routine checks:</strong> the 91% overall rate reflects high-frequency blood pressure/cholesterol checks; cancer-specific screening gaps are likely larger</li>
+						<li><strong>Small uninsured sample:</strong> only 112 adults, so the uninsured odds ratio (0.18) carries a wide confidence interval (0.081&ndash;0.407)</li>
+						<li><strong>Small cell sizes in the heat map:</strong> some race &times; insurance combinations have low sample sizes and should be interpreted cautiously</li>
+						<li><strong>Unweighted regression:</strong> odds ratios are directionally correct, but confidence intervals may be slightly underestimated without a survey-weighted framework</li>
+						<li><strong>Cross-sectional data:</strong> this analysis identifies associations, not causation</li>
+					</ul>
+
+					<hr />
+
+					<!-- What I'd do with more data -->
+					<h2>What I Would Do With More Data</h2>
+					<ul>
+						<li><strong>Claims-based outcome validation:</strong> replace self-reported data with claims-verified HEDIS measures (AWC, BCS, CCS, COL)</li>
+						<li><strong>Longitudinal gap tracking:</strong> link multiple years of claims data to measure gap closure after interventions</li>
+						<li><strong>Social determinants integration:</strong> merge ZIP-code level SDOH data to help explain residual racial disparities</li>
+						<li><strong>Cost impact modeling:</strong> translate care gaps into estimated downstream cost avoidance to support an ROI case for executive sponsorship</li>
+					</ul>
+
+					<hr />
+
+					<p>
+						<em>Analysis conducted using MEPS HC-243 (2022). Tools used: Python, pandas, numpy,
+						statsmodels, matplotlib, seaborn, Jupyter.</em>
+					</p>
+
+					<ul class="actions">
+						<li><a href="https://github.com/anikhajustin/preventive-care-gaps" class="button large primary">View Full Code &amp; Notebooks on GitHub</a></li>
+						<li><a href="index.html" class="button large">Back to Portfolio</a></li>
+					</ul>
+
+				</article>
+
+			</div><!-- end #main -->
+
+			<!-- Footer -->
+			<footer id="footer">
+				<section>
+					<h3>Let's Connect</h3>
+					<p>
+						I'm always open to discussing data science, healthcare analytics, or potential
+						collaborations. Feel free to reach out!
+					</p>
+				</section>
+				<section class="split contact">
+					<section>
+						<h3>Email</h3>
+						<p><a href="mailto:anikhajustin101@gmail.com">anikhajustin101@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Connect</h3>
+						<ul class="icons alt">
+							<li><a href="https://www.linkedin.com/in/anikha-justin-648671211" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/anikhajustin" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</section>
+				</section>
+			</footer>
+
+			<!-- Copyright -->
+			<div id="copyright">
+				<ul>
+					<li>&copy; Anikha Justin</li>
+					<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div>
+
+		</div><!-- end #wrapper -->
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
