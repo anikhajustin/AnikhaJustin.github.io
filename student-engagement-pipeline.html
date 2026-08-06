@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Student Engagement Analytics Pipeline | Anikha Justin</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<div id="wrapper" class="fade-in">
+
+			<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="logo">Anikha Justin</a>
+			</header>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul class="links">
+					<li><a href="index.html">Portfolio</a></li>
+					<li><a href="preventive-care-gaps.html">Preventive Care Gaps</a></li>
+					<li class="active"><a href="student-engagement-pipeline.html">Student Engagement Pipeline</a></li>
+				</ul>
+				<ul class="icons">
+					<li><a href="https://www.linkedin.com/in/anikha-justin-648671211" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+					<li><a href="https://github.com/anikhajustin" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				</ul>
+			</nav>
+
+			<!-- Main -->
+			<div id="main">
+
+				<article class="post">
+
+					<header class="major">
+						<span class="date">Data Engineering &bull; Automation</span>
+						<h1>Student Engagement Analytics Pipeline</h1>
+						<p>An automated Python pipeline that replaced a fully manual, semester-end reporting process for a university Student Engagement office.</p>
+					</header>
+
+					<ul class="actions" style="margin-bottom: 2em;">
+						<li><a href="https://github.com/anikhajustin/student-engagement-pipeline" class="button">View Full Code on GitHub</a></li>
+					</ul>
+
+					<!-- Data note -->
+					<blockquote>
+						A note on the data: every number, chart, and student record in this case study is
+						synthetically generated. The real version of this tool runs on actual student records,
+						which are not public. Because the synthetic data is randomly generated, none of the
+						patterns shown below reflect real relationships between, say, housing type and
+						engagement &mdash; they're sampling noise from a random seed, not a discovery. What's
+						real here is the pipeline, the methodology, and the deliverable it produces. This case
+						study is a demonstration of the tool, not a report of findings.
+					</blockquote>
+
+					<hr />
+
+					<!-- The Problem -->
+					<h2>The Problem</h2>
+					<p>
+						The Student Engagement office needed a recurring answer to a practical question: who
+						is engaging with campus events, who isn't, and where should outreach be targeted?
+						Previously, answering that meant hours of manual work every semester &mdash; pulling a
+						roster, cross-referencing it by hand against sign-in sheets from each event, and
+						manually building breakdowns by class year, housing, major, and other demographics in
+						a spreadsheet.
+					</p>
+					<p>
+						I identified this as a posting through the university's micro-internship program,
+						proposed a solution, and was selected and compensated to build it.
+					</p>
+
+					<hr />
+
+					<!-- What I Built -->
+					<h2>What I Built</h2>
+					<p>An end-to-end Python pipeline that:</p>
+					<ol>
+						<li><strong>Ingests</strong> a student roster and a set of per-event sign-in sheets</li>
+						<li><strong>Joins and counts</strong> attendance per student across every tracked event</li>
+						<li><strong>Breaks down participation</strong> across 10+ dimensions &mdash; class year, housing type, residence hall, major, race/ethnicity, gender, first-generation status, Pell Grant status, and athlete status</li>
+						<li><strong>Flags engagement level</strong> for every student on the roster (new capability &mdash; see below)</li>
+						<li><strong>Outputs</strong> a multi-sheet Excel workbook, the actual institutional deliverable staff use, plus a set of charts for reporting</li>
+					</ol>
+					<p>
+						The original tool this replaced was a manual Google Sheets / Apps Script process. This
+						pipeline mirrors its output structure so staff didn't have to relearn anything, while
+						automating the labor and adding a capability that didn't exist before.
+					</p>
+
+					<hr />
+
+					<!-- Engagement Flag -->
+					<h2>The Engagement Flag: A Design Decision, Not Just a Feature</h2>
+					<p>
+						The original tool was purely descriptive &mdash; counts and breakdowns, nothing that
+						told staff <em>who</em> to act on. I added a rule-based engagement flag so the tool
+						could surface which students may be disengaging, not just how many people showed up
+						in total.
+					</p>
+					<p>Every student is flagged using <strong>fixed event counts</strong>, not percentages:</p>
+					<ul>
+						<li><strong>No Engagement</strong> &mdash; attended 0 events</li>
+						<li><strong>Low Engagement</strong> &mdash; attended 1&ndash;2 events</li>
+						<li><strong>Moderate Engagement</strong> &mdash; attended 3&ndash;4 events</li>
+						<li><strong>High Engagement</strong> &mdash; attended 5+ events</li>
+					</ul>
+					<p>
+						I chose counts over percentages deliberately. With a small number of tracked events
+						per semester, percentage thresholds shift meaning depending on how many events
+						happened to be tracked that term &mdash; 2 of 8 events attended is 25%, but 2 of 15
+						events is 13%, even though the student's real-world behavior is identical. Fixed
+						counts give a stable rule that means the same thing every semester, and is easy for
+						non-technical staff to explain and act on: "attended at least 3 events this semester."
+					</p>
+					<p>
+						The flag is intentionally rule-based rather than a predictive model, so the logic is
+						fully auditable by any staff member reviewing the output &mdash; the right tradeoff
+						for an institutional reporting tool where the output can influence outreach decisions
+						about real students.
+					</p>
+
+					<hr />
+
+					<!-- Sample Output -->
+					<h2>Sample Output</h2>
+					<p>
+						The charts below show the pipeline's output format, generated from synthetic data for
+						this public demonstration.
+					</p>
+
+					<p><strong>Where students land on the engagement flag</strong> &mdash; this is the new capability the original tool didn't have:</p>
+					<span class="image fit">
+						<img src="images/sep_fig4_engagement_distribution.png" alt="Engagement Level Distribution" />
+					</span>
+
+					<p><strong>How many events students attended, across the full roster</strong> (including the zero-event group &mdash; the most actionable segment for outreach):</p>
+					<span class="image fit">
+						<img src="images/sep_fig1_attendance_distribution.png" alt="Distribution of Event Attendance" />
+					</span>
+
+					<p><strong>Engagement flag broken down by class year</strong>, so staff can see whether disengagement clusters in a particular cohort:</p>
+					<span class="image fit">
+						<img src="images/sep_fig5_engagement_by_class.png" alt="Engagement Level by Class Year" />
+					</span>
+
+					<p>
+						The pipeline also breaks participation down by residence hall, major, commuter status,
+						and demographic categories including first-generation and Pell Grant status &mdash;
+						all delivered as sheet tabs in the exported Excel workbook, ready for staff to filter
+						and act on directly.
+					</p>
+
+					<hr />
+
+					<!-- Impact -->
+					<h2>Impact</h2>
+					<ul>
+						<li><strong>Reduced semester-end processing time by an estimated 80%</strong>, replacing a manual cross-tabbing process with a single pipeline run</li>
+						<li><strong>Added a capability that didn't exist in the original tool</strong> &mdash; the engagement flag gives staff a direct, actionable list instead of just raw counts</li>
+						<li><strong>Adopted for ongoing use</strong> by university leadership across future semesters</li>
+						<li>Documented the full system so non-technical staff can run and maintain it independently</li>
+					</ul>
+
+					<hr />
+
+					<p>
+						<em>Tools used: Python, pandas, matplotlib, seaborn, openpyxl, Faker (for synthetic
+						data generation).</em>
+					</p>
+
+					<ul class="actions">
+						<li><a href="https://github.com/anikhajustin/student-engagement-pipeline" class="button large primary">View Full Code on GitHub</a></li>
+						<li><a href="index.html" class="button large">Back to Portfolio</a></li>
+					</ul>
+
+				</article>
+
+			</div><!-- end #main -->
+
+			<!-- Footer -->
+			<footer id="footer">
+				<section>
+					<h3>Let's Connect</h3>
+					<p>
+						I'm always open to discussing data science, healthcare analytics, or potential
+						collaborations. Feel free to reach out!
+					</p>
+				</section>
+				<section class="split contact">
+					<section>
+						<h3>Email</h3>
+						<p><a href="mailto:anikhajustin101@gmail.com">anikhajustin101@gmail.com</a></p>
+					</section>
+					<section>
+						<h3>Connect</h3>
+						<ul class="icons alt">
+							<li><a href="https://www.linkedin.com/in/anikha-justin-648671211" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="https://github.com/anikhajustin" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+						</ul>
+					</section>
+				</section>
+			</footer>
+
+			<!-- Copyright -->
+			<div id="copyright">
+				<ul>
+					<li>&copy; Anikha Justin</li>
+					<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+				</ul>
+			</div>
+
+		</div><!-- end #wrapper -->
+
+		<!-- Scripts -->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrollex.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
